@@ -49,6 +49,10 @@ Each skill is a written method the agent loads when the task calls for it. What 
 **Approach:** record the page while it scrolls, measure long tasks and layout shifts, review contact sheets frame by frame on desktop, mobile and reduced motion.
 **Proof:** the recorder is open source in [`tools/motion-recorder`](tools/motion-recorder), with an end-to-end test in CI: the clean demo must come out SMOOTH and the broken one must be flagged. On real builds the sheets caught bugs that tests missed, such as split headlines whose words lost their spaces.
 
+![The motion recorder scrolling a broken demo page and flagging it](docs/assets/motion-recorder-demo.gif)
+
+Live overlay added for this recording; the full report comes from `record.mjs`.
+
 ![The motion recorder catching a late banner that pushes the page down](docs/assets/motion-recorder-catch.png)
 
 ### Specialist reviewers: `review-panel`

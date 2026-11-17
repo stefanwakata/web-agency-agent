@@ -2,6 +2,10 @@
 
 Screenshots cannot show motion. This tool scrolls a web page like a person, films it, measures how smooth it was, and turns the video into contact sheets so every animation can be reviewed frame by frame.
 
+![The motion recorder scrolling a broken demo page and flagging it](../../docs/assets/motion-recorder-demo.gif)
+
+Live overlay added for this recording; the full report comes from `record.mjs`.
+
 It is the open-source part of the agent's `motion-review` skill. The review rules and the measured reference values the agent judges against stay private.
 
 ## What it produces
