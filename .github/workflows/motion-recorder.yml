@@ -1,0 +1,37 @@
+name: motion-recorder
+
+on:
+  push:
+    paths: ["tools/motion-recorder/**", ".github/workflows/motion-recorder.yml"]
+  pull_request:
+    paths: ["tools/motion-recorder/**", ".github/workflows/motion-recorder.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verdicts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: tools/motion-recorder
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: tools/motion-recorder/package-lock.json
+      - run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm test
+      - name: Keep the reports and contact sheets
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: motion-recorder-output
+          path: tools/motion-recorder/out/
+          retention-days: 7

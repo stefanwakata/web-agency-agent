@@ -36,6 +36,14 @@ What that report means, frame by frame:
 
 ![The motion recorder catching a late banner that pushes the page down](../../docs/assets/motion-recorder-catch.png)
 
+## Test
+
+```bash
+npm test   # starts the demo, records it clean and broken, checks both verdicts
+```
+
+The same test runs in GitHub Actions on every change to this folder.
+
 ## Use it on any site
 
 ```bash

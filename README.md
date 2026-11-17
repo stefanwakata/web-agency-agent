@@ -4,11 +4,13 @@ An AI agent I designed and direct, built on Claude (Anthropic), that takes a cli
 
 This repository is the public overview: how the system is put together, how it evaluates its own work, the guardrails, and one open-source tool. The skills themselves (methods, measured values, prompts, rubric details) and the starter stay private.
 
-![Status](https://img.shields.io/badge/status-in%20production%20use-2f5fe0) ![Built on](https://img.shields.io/badge/built%20on-Claude-b4543f) ![Tool](https://img.shields.io/badge/open--source%20tool-motion--recorder-14171a)
+![Status](https://img.shields.io/badge/status-used%20on%20client%20work-2f5fe0) ![Built on](https://img.shields.io/badge/built%20on-Claude-b4543f) [![motion-recorder tests](https://github.com/stefanwakata/web-agency-agent/actions/workflows/motion-recorder.yml/badge.svg)](https://github.com/stefanwakata/web-agency-agent/actions/workflows/motion-recorder.yml)
+
+![Scores across three passes on a real client's site: 79, 82.5, 86](docs/assets/benchmark-passes.png)
 
 ## In numbers
 
-- **Redesigns scored before and after** by two independent judges on a fixed 100-point rubric: a book-exchange platform went from 67 to 78.5, an artist portfolio from 79 to 86 over three scored passes.
+- **Redesigns scored before and after** by two independent judges on a fixed 100-point rubric: an artist portfolio for a real client went from 79 to 86 over three passes (chart above), a book-exchange platform from 67 to 78.5.
 - **Hardened starter:** Lighthouse 100 in performance, accessibility, best practices and SEO; 33 unit and integration tests and 51 end-to-end tests including WCAG 2.2 AA checks with axe; layout shift 0.
 - **Reference library:** six award-level sites measured in a real browser, down to reveal timings sampled frame by frame.
 
@@ -45,7 +47,7 @@ Each skill is a written method the agent loads when the task calls for it. What 
 ### Eyes for motion: `motion-review`
 **Problem:** screenshots cannot show animation, and an agent that cannot see motion ships stutter.
 **Approach:** record the page while it scrolls, measure long tasks and layout shifts, review contact sheets frame by frame on desktop, mobile and reduced motion.
-**Proof:** the recorder is open source in [`tools/motion-recorder`](tools/motion-recorder). On real builds the sheets caught bugs that tests missed, such as split headlines whose words lost their spaces.
+**Proof:** the recorder is open source in [`tools/motion-recorder`](tools/motion-recorder), with an end-to-end test in CI: the clean demo must come out SMOOTH and the broken one must be flagged. On real builds the sheets caught bugs that tests missed, such as split headlines whose words lost their spaces.
 
 ![The motion recorder catching a late banner that pushes the page down](docs/assets/motion-recorder-catch.png)
 
@@ -57,11 +59,13 @@ Each skill is a written method the agent loads when the task calls for it. What 
 ### Independent judges: `site-benchmark`
 **Problem:** a model grading its own work is a weak signal.
 **Approach:** a fixed 100-point rubric (identity, typography, layout, colour, motion, inner pages, mobile, accessibility, performance, copy). Two judges grade independently from screenshots, contact sheets and reports, and every deducted point must cite evidence. A third judge breaks ties when they disagree by more than 6 points. Targets and acceptance criteria are written before the first change, and a no-regression check runs after.
-**Proof:** the before and after scores above, each run logged with its deductions.
+**Proof:** the chart at the top: every pass logged with its deductions, including one judge's deduction that was rejected because the code proved it wrong.
 
 ### The READY gate
 **Problem:** "done" means different things on different days.
 **Approach:** the same checks in the same order before anything reaches a human: build, types, lint, tests, a scan for secrets and stray attribution, a file-by-file diff review, and checksums proving the delivered files are the tested ones.
+
+Example of the report format:
 
 ```text
 Build    PASS
@@ -69,7 +73,7 @@ Types    PASS
 Lint     PASS
 Tests    PASS (33 unit, 51 e2e, axe 0)
 Secrets  PASS
-Diff     PASS (12 files reviewed)
+Diff     PASS (every changed file reviewed)
 Checksum PASS
 Overall  READY
 ```
