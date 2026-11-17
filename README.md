@@ -40,13 +40,19 @@ Every arrow back is a loop the agent runs on its own until the work passes; the 
 Each skill is a written method the agent loads when the task calls for it. What each one solves, and the proof it leaves behind:
 
 ### Measured taste: `reference-library`
+
 **Problem:** "Make it look premium" is not an instruction a model can check.
+
 **Approach:** award-level sites measured in a real browser with a measurement script: type scale, spacing, easing curves, reveal start states, and reveal timings sampled every 50 ms (Apple's product pages, for example, finish the transform around 650 ms and the opacity around 900 ms). The values are grouped into three registers (product, studio, editorial) and every build picks one.
+
 **Proof:** concrete values instead of adjectives in every design decision, plus a running list of pitfalls found on real builds.
 
 ### Eyes for motion: `motion-review`
+
 **Problem:** screenshots cannot show animation, and an agent that cannot see motion ships stutter.
+
 **Approach:** record the page while it scrolls, measure long tasks and layout shifts, review contact sheets frame by frame on desktop, mobile and reduced motion.
+
 **Proof:** the recorder is open source in [`tools/motion-recorder`](tools/motion-recorder), with an end-to-end test in CI: the clean demo must come out SMOOTH and the broken one must be flagged. On real builds the sheets caught bugs that tests missed, such as split headlines whose words lost their spaces.
 
 ![The motion recorder scrolling a broken demo page and flagging it](docs/assets/motion-recorder-demo.gif)
@@ -56,17 +62,25 @@ Live overlay added for this recording; the full report comes from `record.mjs`.
 ![The motion recorder catching a late banner that pushes the page down](docs/assets/motion-recorder-catch.png)
 
 ### Specialist reviewers: `review-panel`
+
 **Problem:** one reviewer, human or model, misses whole categories of problems.
+
 **Approach:** parallel sub-agents, each with one job (security code review, live attacker, design, accessibility and copy, motion and performance, tests). Every finding has to be reproduced before anything is fixed.
+
 **Proof:** on the starter the panel found an over-privileged admin plugin, account enumeration through sign-up, account deletion without the password and IP-only rate limits; all fixed and covered by tests. It also discarded one confident but false finding after checking it against the code's syntax tree.
 
 ### Independent judges: `site-benchmark`
+
 **Problem:** a model grading its own work is a weak signal.
+
 **Approach:** a fixed 100-point rubric (identity, typography, layout, colour, motion, inner pages, mobile, accessibility, performance, copy). Two judges grade independently from screenshots, contact sheets and reports, and every deducted point must cite evidence. A third judge breaks ties when they disagree by more than 6 points. Targets and acceptance criteria are written before the first change, and a no-regression check runs after.
+
 **Proof:** the chart at the top: every pass logged with its deductions, including one judge's deduction that was rejected because the code proved it wrong.
 
 ### The READY gate
+
 **Problem:** "done" means different things on different days.
+
 **Approach:** the same checks in the same order before anything reaches a human: build, types, lint, tests, a scan for secrets and stray attribution, a file-by-file diff review, and checksums proving the delivered files are the tested ones.
 
 Example of the report format:
@@ -83,7 +97,9 @@ Overall  READY
 ```
 
 ### Learning from each project: `project-retro`
+
 **Problem:** an agent that does not keep its lessons repeats its mistakes.
+
 **Approach:** after each project, lessons are written with their evidence and a confidence score from 0.3 (seen once) to 0.9 (confirmed on three projects). A lesson moves into a skill at 0.7, after a second project confirms it, and only with my approval. No background observer and no automatic hooks: every lesson is visible and reviewable.
 
 ### Human in the loop: house standards
@@ -104,6 +120,7 @@ Next.js 16, React 19, TypeScript, Postgres (Neon) with Drizzle, Better Auth, Ast
 ## Author
 
 **Stefan-Olivier Wakata**
+
 [LinkedIn](https://www.linkedin.com/in/stefan-wakata-1610b6243/), [GitHub](https://github.com/stefanwakata)
 
 The `tools/motion-recorder` folder is MIT licensed. Everything else in this repository is all rights reserved.
