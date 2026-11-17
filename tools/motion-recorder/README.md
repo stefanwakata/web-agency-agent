@@ -32,9 +32,9 @@ INVESTIGATE  desktop  long tasks while scrolling: 4  CLS: 0.08  console errors: 
   - layout shift 0.08 (target < 0.02)
 ```
 
-The late banner, caught on the contact sheet (it appears, and every screen below it moves down):
+What that report means, frame by frame:
 
-![Contact sheet showing the late banner pushing content down](../../docs/assets/contact-sheet-late-banner.png)
+![The motion recorder catching a late banner that pushes the page down](../../docs/assets/motion-recorder-catch.png)
 
 ## Use it on any site
 

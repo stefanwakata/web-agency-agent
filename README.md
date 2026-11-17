@@ -47,7 +47,7 @@ Each skill is a written method the agent loads when the task calls for it. What 
 **Approach:** record the page while it scrolls, measure long tasks and layout shifts, review contact sheets frame by frame on desktop, mobile and reduced motion.
 **Proof:** the recorder is open source in [`tools/motion-recorder`](tools/motion-recorder). On real builds the sheets caught bugs that tests missed, such as split headlines whose words lost their spaces.
 
-![Contact sheet: cards revealing on scroll](docs/assets/contact-sheet-reveals.png)
+![The motion recorder catching a late banner that pushes the page down](docs/assets/motion-recorder-catch.png)
 
 ### Specialist reviewers: `review-panel`
 **Problem:** one reviewer, human or model, misses whole categories of problems.
