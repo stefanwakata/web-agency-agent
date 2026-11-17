@@ -1,0 +1,15 @@
+{
+  "name": "motion-recorder",
+  "version": "1.0.0",
+  "description": "Record a web page while it scrolls, measure smoothness and build contact sheets to review animations frame by frame.",
+  "type": "module",
+  "license": "MIT",
+  "bin": { "motion-recorder": "./record.mjs" },
+  "scripts": {
+    "demo:serve": "node demo/serve.mjs",
+    "demo:clean": "node record.mjs http://localhost:4173/ --out out/clean",
+    "demo:jank": "node record.mjs \"http://localhost:4173/?jank=1\" --out out/jank"
+  },
+  "dependencies": { "playwright": "1.63.0" },
+  "engines": { "node": ">=20" }
+}
